@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		B505FE0425B0C9E20088F2AA /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B505FE0325B0C9E20088F2AA /* LoginController.swift */; };
 		B505FE0725B0C9F50088F2AA /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B505FE0625B0C9F50088F2AA /* RegistrationController.swift */; };
+		B5096D2B25B49D2C009A0384 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5096D2A25B49D2C009A0384 /* LoginViewModel.swift */; };
+		B5096D2E25B4AAC5009A0384 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5096D2D25B4AAC5009A0384 /* RegistrationViewModel.swift */; };
 		B557999325B057AB004414AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B557999225B057AB004414AE /* AppDelegate.swift */; };
 		B557999525B057AB004414AE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B557999425B057AB004414AE /* SceneDelegate.swift */; };
 		B557999725B057AB004414AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B557999625B057AB004414AE /* ViewController.swift */; };
@@ -24,6 +26,8 @@
 /* Begin PBXFileReference section */
 		B505FE0325B0C9E20088F2AA /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		B505FE0625B0C9F50088F2AA /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
+		B5096D2A25B49D2C009A0384 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		B5096D2D25B4AAC5009A0384 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		B557998F25B057AB004414AE /* FireChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FireChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B557999225B057AB004414AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B557999425B057AB004414AE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -121,6 +125,8 @@
 		B55799B025B057E0004414AE /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				B5096D2A25B49D2C009A0384 /* LoginViewModel.swift */,
+				B5096D2D25B4AAC5009A0384 /* RegistrationViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -212,6 +218,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B557999725B057AB004414AE /* ViewController.swift in Sources */,
+				B5096D2E25B4AAC5009A0384 /* RegistrationViewModel.swift in Sources */,
 				B5B94C6225B1D6A00015F934 /* InputContainerView.swift in Sources */,
 				B557999325B057AB004414AE /* AppDelegate.swift in Sources */,
 				B55799B525B05928004414AE /* ConversationsController.swift in Sources */,
@@ -219,6 +226,7 @@
 				B505FE0725B0C9F50088F2AA /* RegistrationController.swift in Sources */,
 				B505FE0425B0C9E20088F2AA /* LoginController.swift in Sources */,
 				B5B94C5F25B18D3E0015F934 /* Extensions.swift in Sources */,
+				B5096D2B25B49D2C009A0384 /* LoginViewModel.swift in Sources */,
 				B5E47E9025B1DDC900ADAABC /* CustomTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
