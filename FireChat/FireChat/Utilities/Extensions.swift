@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import JGProgressHUD
 
 // MARK: - UIView
 extension UIView {
@@ -80,6 +81,8 @@ extension UIView {
 // MARK: - UIViewController
 extension UIViewController {
     
+    static let hud = JGProgressHUD(style: .dark)
+
     // MARK:  Background
     func configureGradientLayer() {
         let gradient = CAGradientLayer()
@@ -99,5 +102,17 @@ extension UIViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-
+    
+    // MARK:  JGPProgress
+    func showLoader(_ show: Bool, withText text: String? = "Loading") {
+        view.endEditing(true)
+        UIViewController.hud.textLabel.text = text
+        
+        if show {
+            UIViewController.hud.show(in: view)
+        } else {
+            UIViewController.hud.dismiss()
+        }
+    }
+    
 }

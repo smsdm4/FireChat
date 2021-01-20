@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 private let reuseIdentifer = "ConversationsCell"
  
@@ -18,14 +19,45 @@ class ConversationsController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        authenticateUser()
     }
     
     // MARK: - Selectors
     @objc func showProfile() {
-        print(123)
+        logout()
+    }
+    
+    // MARK: - API
+    func authenticateUser() {
+        if Auth.auth().currentUser?.uid == nil {
+            presentLoginscreen()
+        } else {
+            print("DEBUG: User id is \(String(describing: Auth.auth().currentUser?.uid))")
+        }
+    }
+    
+    func logout() {
+        self.showLoader(true, withText: "Logging Out..")
+        do {
+            try Auth.auth().signOut()
+            self.showLoader(false)
+            presentLoginscreen()
+        } catch {
+            print("DEBUG: Error signing out...")
+            self.showLoader(false)
+        }
     }
     
     // MARK: - Helpers
+    func presentLoginscreen() {
+        DispatchQueue.main.async {
+            let controller = LoginController()
+            let nav = UINavigationController(rootViewController: controller)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true, completion: nil)
+        }
+    }
+    
     func configureUI() {
         
         // MARK:  Background

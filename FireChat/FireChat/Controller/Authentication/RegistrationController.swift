@@ -6,11 +6,15 @@
 //
 
 import UIKit
+import Firebase
+import JGProgressHUD
 
 class RegistrationController: UIViewController {
     
     // MARK: - Properties
     private var viewModel = RegistrationViewModel()
+    
+    private var profileImg: UIImage?
     
     private let plusPhotobButton: UIButton = {
         let button = UIButton(type: .system)
@@ -84,6 +88,7 @@ class RegistrationController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        configureNotificationObservers()
     }
     
     // MARK: - Selectors
@@ -92,6 +97,29 @@ class RegistrationController: UIViewController {
         imagePickerController.delegate = self
         imagePickerController.allowsEditing = true
         present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    @objc func handleRegistration() {
+        guard let profileImg = self.profileImg else { return }
+        guard let email = self.emailTextField.text else { return }
+        guard let password = self.passwordTextField.text else { return }
+        guard let fullname = self.fullNameTextField.text else { return }
+        guard let username = self.userNameTextField.text?.lowercased() else { return }
+        
+        let credentials = RegistrationCredentials(email: email, password: password,
+                                                  fullname: fullname, username: username,
+                                                  profileImage: profileImg)
+        
+        self.showLoader(true, withText: "Signing Up..")
+        AuthService.shared.createUser(credentials: credentials) { error in
+            if let error = error {
+                print("DEBUG: Failed to sign up user with error \(error.localizedDescription)")
+                self.showLoader(false)
+                return
+            }
+            self.showLoader(false)
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     @objc func handleShowLogIn() {
@@ -112,6 +140,18 @@ class RegistrationController: UIViewController {
         checkFormStatus()
     }
     
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if self.view.frame.origin.y == 0 {
+            self.view.frame.origin.y -= 80
+        }
+    }
+    
+    @objc func keyboardWillHide() {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    } 
+    
     // MARK: - Helpers
     func configureUI() {
         
@@ -129,9 +169,9 @@ class RegistrationController: UIViewController {
         
         // MARK:  StackView
         let stack = UIStackView(arrangedSubviews: [self.emailContainerView,
+                                                   self.passwordContainerView,
                                                    self.fullNameContainerView,
                                                    self.usernameContainerView,
-                                                   self.passwordContainerView,
                                                    self.signUpbButton])
         stack.axis = .vertical
         stack.spacing = 16
@@ -148,11 +188,17 @@ class RegistrationController: UIViewController {
         self.alreayHaveAccountButton.anchor(left: self.view.leftAnchor, bottom: self.view.safeAreaLayoutGuide.bottomAnchor, right: self.view.rightAnchor, paddingLeft: 32, paddingBottom: 16, paddingRight: 32)
         
         // MARK:  Actions
-        self.alreayHaveAccountButton.addTarget(self, action: #selector(handleShowLogIn), for: .touchUpInside)
         self.emailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         self.fullNameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         self.userNameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         self.passwordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        self.signUpbButton.addTarget(self, action: #selector(handleRegistration), for: .touchUpInside)
+        self.alreayHaveAccountButton.addTarget(self, action: #selector(handleShowLogIn), for: .touchUpInside)
+    }
+    
+    func configureNotificationObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
 }
@@ -161,6 +207,7 @@ class RegistrationController: UIViewController {
 extension RegistrationController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[.originalImage] as! UIImage
+        self.profileImg = image
         self.plusPhotobButton.setImage(image.withRenderingMode(.alwaysOriginal), for: .normal)
         self.plusPhotobButton.layer.borderColor = UIColor.white.cgColor
         self.plusPhotobButton.layer.borderWidth = 3.0
