@@ -82,7 +82,7 @@ extension UIView {
 extension UIViewController {
     
     static let hud = JGProgressHUD(style: .dark)
-
+    
     // MARK:  Background
     func configureGradientLayer() {
         let gradient = CAGradientLayer()
@@ -113,6 +113,25 @@ extension UIViewController {
         } else {
             UIViewController.hud.dismiss()
         }
+    }
+    
+    // MARK:  NavigationBar
+    func configureNavigationBar(withTitle title: String, prefersLargeTitles: Bool) {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.backgroundColor = .systemPurple
+        
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.compactAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        self.navigationController?.navigationBar.prefersLargeTitles = prefersLargeTitles
+        self.navigationController?.navigationBar.tintColor = .white
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.navigationController?.navigationBar.overrideUserInterfaceStyle = .dark
+        self.navigationItem.title = title
+        
     }
     
 }

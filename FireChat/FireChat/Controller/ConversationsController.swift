@@ -15,6 +15,15 @@ class ConversationsController : UIViewController {
     // MARK: - Properties
     private let tableView = UITableView()
     
+    private let newMessageButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.backgroundColor = .systemPurple
+        button.tintColor = .white
+        button.imageView?.setDimensions(height: 24, width: 24)
+        return button
+    }()
+    
     // MARK: - Lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +34,13 @@ class ConversationsController : UIViewController {
     // MARK: - Selectors
     @objc func showProfile() {
         logout()
+    }
+    
+    @objc func handleShowNewMessage() {
+        let controller = NewMessageController()
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true, completion: nil)
     }
     
     // MARK: - API
@@ -65,31 +81,22 @@ class ConversationsController : UIViewController {
         self.view.overrideUserInterfaceStyle = .light
         
         // MARK:  NavigationBar
-        configureNavigationBar()
+        configureNavigationBar(withTitle: "Messages", prefersLargeTitles: true)
+        let navImage = UIImage(systemName: "person.circle.fill")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: navImage, style: .plain, target: self, action: #selector(showProfile))
         
         // MARK:  TableView
         configureTableView()
-
-    }
-    
-    func configureNavigationBar() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        appearance.backgroundColor = .systemPurple
         
-        self.navigationController?.navigationBar.standardAppearance = appearance
-        self.navigationController?.navigationBar.compactAppearance = appearance
-        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        self.view.addSubview(self.newMessageButton)
+        self.newMessageButton.setDimensions(height: 56, width: 56)
+        self.newMessageButton.anchor(bottom: self.view.safeAreaLayoutGuide.bottomAnchor,
+                                     right: self.view.rightAnchor,
+                                     paddingBottom: 24, paddingRight: 24)
+        self.newMessageButton.layer.cornerRadius = 56 / 2
         
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.tintColor = .white
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.navigationBar.overrideUserInterfaceStyle = .dark
-        self.navigationItem.title = "Messages"
-        
-        let navImage = UIImage(systemName: "person.circle.fill")
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: navImage, style: .plain, target: self, action: #selector(showProfile))
+        // MARK:  Actions
+        self.newMessageButton.addTarget(self, action: #selector(handleShowNewMessage), for: .touchUpInside)
     }
     
     func configureTableView() {

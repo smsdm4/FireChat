@@ -211,7 +211,7 @@ extension RegistrationController: UIImagePickerControllerDelegate, UINavigationC
         self.plusPhotobButton.setImage(image.withRenderingMode(.alwaysOriginal), for: .normal)
         self.plusPhotobButton.layer.borderColor = UIColor.white.cgColor
         self.plusPhotobButton.layer.borderWidth = 3.0
-        self.plusPhotobButton.layer.cornerRadius = 150 / 2
+        self.plusPhotobButton.layer.cornerRadius = self.plusPhotobButton.frame.height / 2
         dismiss(animated: true, completion: nil)
     }
 }
