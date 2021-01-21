@@ -1,6 +1,6 @@
-## FireChat
+# FireChat
 
-# Details
+## Details
 
 - Fully functioning messaging interface
 - Swift 5 & Xcode 12.3
