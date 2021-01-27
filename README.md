@@ -1,6 +1,6 @@
-## FireChat
+# FireChat
 
-# Details
+## Details
 
 - Model View ViewModel (MVVM) architecture
 - Fully functioning messaging interface
