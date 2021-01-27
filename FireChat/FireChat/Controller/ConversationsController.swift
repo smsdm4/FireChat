@@ -38,6 +38,7 @@ class ConversationsController : UIViewController {
     
     @objc func handleShowNewMessage() {
         let controller = NewMessageController()
+        controller.delegate = self
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         self.present(nav, animated: true, completion: nil)
@@ -120,7 +121,7 @@ extension ConversationsController : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: reuseIdentifer, for: indexPath)
-        cell.textLabel?.text = "Test Cell"
+        cell.textLabel?.text = "Test Cell" 
         return cell
     }
 }
@@ -128,5 +129,14 @@ extension ConversationsController : UITableViewDataSource {
 extension ConversationsController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
+    }
+}
+
+// MARK: - NewMessageControllerDelegate
+extension ConversationsController: NewMessageControllerDelegate {
+    func controller(_ controller: NewMessageController, wantsToStartChatWith user: User) {
+        controller.dismiss(animated: true, completion: nil)
+        let chat = ChatController(user: user)
+        self.navigationController?.pushViewController(chat, animated: true)
     }
 }

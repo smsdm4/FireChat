@@ -9,11 +9,17 @@ import UIKit
 
 private let reuseIdentifer = "NewMessageCell"
 
+protocol NewMessageControllerDelegate: class {
+    func controller(_ controller: NewMessageController, wantsToStartChatWith user: User)
+}
+
 class NewMessageController: UIViewController {
     
     // MARK: - Properties
     private let tableView = UITableView()
     private var users = [User]()
+    
+    weak var delegate: NewMessageControllerDelegate?
     
     // MARK: - LifeCycles
     override func viewDidLoad() {
@@ -47,7 +53,7 @@ class NewMessageController: UIViewController {
         
         // MARK:  configureTableV iew
         configureTableView()
-    
+        
     }
     
     func configureTableView() {
@@ -79,6 +85,6 @@ extension NewMessageController : UITableViewDataSource {
 
 extension NewMessageController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("DEBUG: \(indexPath.row)")
+        self.delegate?.controller(self, wantsToStartChatWith: self.users[indexPath.row])
     }
 }
