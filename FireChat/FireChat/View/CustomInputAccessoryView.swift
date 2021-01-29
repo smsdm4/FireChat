@@ -16,7 +16,7 @@ class CustomInputAccessoryView: UIView {
     // MARK: - Properties
     weak var delegate: CustomInputaccessoryViewDelegate?
     
-    let messageInputTextView: UITextView = {
+    lazy var messageInputTextView: UITextView = {
        let tv = UITextView()
         tv.font = UIFont.systemFont(ofSize: 16)
         tv.isScrollEnabled = false
@@ -27,7 +27,7 @@ class CustomInputAccessoryView: UIView {
     private lazy var sendButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Send", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         button.setTitleColor(.systemPurple, for: .normal)
         return button
     }()
@@ -43,7 +43,7 @@ class CustomInputAccessoryView: UIView {
     // MARK: - Lifecycles
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+                
         self.autoresizingMask = .flexibleHeight
         configureNotificationObservers()
         
@@ -55,12 +55,10 @@ class CustomInputAccessoryView: UIView {
         self.layer.shadowColor = UIColor.lightGray.cgColor
         
         addSubview(sendButton)
-        self.sendButton.anchor(top: topAnchor, right: rightAnchor, paddingTop: 8, paddingRight: 8)
-        self.setDimensions(height: 50, width: 50)
+        self.sendButton.anchor(top: topAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: rightAnchor, paddingTop: 8, paddingBottom: 8, paddingRight: 8, width: 50)
         
         addSubview(messageInputTextView)
-        self.messageInputTextView.anchor(top: topAnchor, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor,
-                                         right: self.sendButton.leftAnchor, paddingTop: 8, paddingLeft: 4, paddingBottom: 8, paddingRight: 8)
+        self.messageInputTextView.anchor(top: topAnchor, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: self.sendButton.leftAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8)
         
         addSubview(placeholderLabel)
         self.placeholderLabel.anchor(left: messageInputTextView.leftAnchor, paddingLeft: 4)

@@ -104,7 +104,7 @@ extension UIViewController {
     }
     
     // MARK:  JGPProgress
-    func showLoader(_ show: Bool, withText text: String? = "Loading") {
+    func showLoader(_ show: Bool, withText text: String? = "Loading..") {
         view.endEditing(true)
         UIViewController.hud.textLabel.text = text
         

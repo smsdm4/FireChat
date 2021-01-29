@@ -10,6 +10,13 @@ import UIKit
 class MessageCell: UICollectionViewCell {
     
     // MARK: - Properties
+    var message: Message? {
+        didSet { configure() }
+    }
+    
+    var bubbleLeftAnchor: NSLayoutConstraint!
+    var bubbleRightAnchor: NSLayoutConstraint!
+    
     private let profileImgView: UIImageView = {
         let iv = UIImageView()
         iv.backgroundColor = .lightGray
@@ -46,9 +53,14 @@ class MessageCell: UICollectionViewCell {
         self.profileImgView.layer.cornerRadius = 32 / 2
         
         addSubview(self.bubbleContainer)
-        self.bubbleContainer.anchor(top: topAnchor, left: self.profileImgView.rightAnchor, paddingLeft: 12)
+        self.bubbleContainer.anchor(top: topAnchor)
         self.bubbleContainer.widthAnchor.constraint(lessThanOrEqualToConstant: 250).isActive = true
         self.bubbleContainer.layer.cornerRadius = 12 / 2
+        
+        self.bubbleLeftAnchor = self.bubbleContainer.leftAnchor.constraint(equalTo: self.profileImgView.rightAnchor, constant: 12 )
+        self.bubbleLeftAnchor.isActive = false
+        self.bubbleRightAnchor = self.bubbleContainer.rightAnchor.constraint(equalTo: rightAnchor, constant: -12 )
+        self.bubbleRightAnchor.isActive = false
         
         addSubview(self.textView)
         self.textView.anchor(top: self.bubbleContainer.topAnchor, left: self.bubbleContainer.leftAnchor,
@@ -64,5 +76,18 @@ class MessageCell: UICollectionViewCell {
     // MARK: - Selectors
     
     // MARK: - Helpers
+    func configure() {
+        guard let message = self.message else { return }
+        let viewModel = MessageViewModel(message: message)
+        
+        self.bubbleContainer.backgroundColor = viewModel.messageBackgroundColor
+        self.textView.textColor = viewModel.messageTextColor
+        self.textView.text = message.text
+        
+        self.bubbleLeftAnchor.isActive = viewModel.leftAnchorActive
+        self.bubbleRightAnchor.isActive = viewModel.rightAnchorActive
+        
+        self.profileImgView.isHidden = viewModel.shouldHideProfileImage
+    }
     
 }
